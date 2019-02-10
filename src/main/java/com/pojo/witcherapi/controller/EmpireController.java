@@ -3,9 +3,8 @@ package com.pojo.witcherapi.controller;
 import com.pojo.witcherapi.model.Empire;
 import com.pojo.witcherapi.service.EmpireService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,5 +21,11 @@ public class EmpireController {
     @RequestMapping("/empires/{id}")
     Empire getEmpire(@PathVariable String id) {
         return empireService.getEmpire(id);
+    }
+
+    @RequestMapping(method=RequestMethod.POST, value="/empires")
+    @ResponseStatus(HttpStatus.CREATED)
+    void addEmpire(@RequestBody Empire empire) {
+        empireService.addEmpire(empire);
     }
 }

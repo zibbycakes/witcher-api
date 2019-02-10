@@ -3,6 +3,7 @@ package com.pojo.witcherapi.service;
 import com.pojo.witcherapi.dao.EmpireDaoModel;
 import com.pojo.witcherapi.model.Empire;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import com.pojo.witcherapi.repository.EmpireRepository;
 
@@ -32,6 +33,13 @@ public class EmpireService {
         empireDaoModel.setName(empire.getName());
 
         return empireDaoModel;
+    }
+
+    public void addEmpire(Empire empire) {
+        if(empireRepository.existsById(empire.getId())) {
+            throw new DuplicateKeyException("ID already in use");
+        }
+        empireRepository.save(convertApiModeltoDao(empire));
     }
 
     public Empire convertDaoToApiModel(EmpireDaoModel empireDaoModel) {
